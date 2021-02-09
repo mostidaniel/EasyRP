@@ -46,6 +46,8 @@ void config_t::update() {
                 this->state = setVar<std::string>(value, this);
             } else if (key == "Details" && value.compare(this->details) != 0) {
                 this->details = setVar<std::string>(value, this);
+            } else if (key == "UseSystemTime" && value.compare(this->use_system_time) != 0) {
+                this->use_system_time = setVar<std::string>(value, this);
             } else if (key == "LargeImage" && value.compare(this->large_img.key) != 0) {
                 this->large_img.key = setVar<std::string>(value, this);
             } else if (key == "SmallImage" && value.compare(this->small_img.key) != 0) {
@@ -68,6 +70,7 @@ void config_t::update() {
                 if (num_value != this->end_time)
                     this->end_time = setVar<long long>(num_value, this);
             }
+
         }
     }
 }
@@ -79,6 +82,12 @@ void config_t::print() {
     printf("\nDetails: %s", this->details.c_str());
     printf("\nLarge Image: '%s' with toolip, '%s'", this->large_img.key.c_str(),
            this->large_img.text.c_str());
+    if (use_system_time.compare("true") == 0) {
+        printf("\nUsing system time");
+    }
+    else {
+        printf("\nNot using system time");
+    }
     printf("\nSmall Image: '%s' with toolip, '%s'", this->small_img.key.c_str(),
            this->small_img.text.c_str());
     printf("\nStart Time: %lld", this->start_time);

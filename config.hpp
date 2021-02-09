@@ -18,6 +18,9 @@ struct config_t {
     pimage_t small_img;
     pimage_t large_img;
 
+    // bool for either should use system time or not
+    std::string use_system_time;
+
     // timestamps for game; note: these usually have to be within about 24 hours
     // :(
     long long start_time = 0;

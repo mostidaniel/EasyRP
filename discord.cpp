@@ -1,9 +1,11 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include "config.hpp"
 #include <cstring>
 #include <iostream>
 #include <limits.h>
 #include <stdio.h>
 #include <string>
+#include <chrono>
 
 #define DISCORD_DISABLE_IO_THREAD
 #include "discord_rpc.h"
@@ -37,6 +39,7 @@ void updatePresence(config_t *c) {
     // set required variables
     DiscordRichPresence discordPresence;
     memset(&discordPresence, 0, sizeof(discordPresence));
+    time_t time = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
 
     // make sure required parameters are set, if not dont update untill they are
     // corrected
@@ -65,8 +68,13 @@ void updatePresence(config_t *c) {
         return;
     }
 
-    if (c->start_time >= 0 && c->start_time != 0LL)
+    if (c->use_system_time.compare("true") == 0) {
+        discordPresence.startTimestamp = time;
+    }
+    else {
+        if (c->start_time >= 0 && c->start_time != 0LL)
         discordPresence.startTimestamp = (int64_t)c->start_time;
+    }
     if (c->end_time >= 0 && c->end_time != 0LL)
         discordPresence.endTimestamp = (int64_t)c->end_time;
 
